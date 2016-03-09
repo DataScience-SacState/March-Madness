@@ -1,0 +1,37 @@
+SHIT THAT DOESN’T WORK
+
+SELECT * FROM TourneySeeds t WHERE Season >= 2014
+join RegularSeasonCompactResults r
+on t.Team = r.Team
+
+SHIT THAT MOSTLY WORKS
+
+
+SELECT * 
+
+FROM RegularSeasonDetailedResults
+
+WHERE Season >= 2014
+
+most winning teams regular season last two years
+
+SELECT Wteam, COUNT(*)  AS wcount
+FROM RegularSeasonCompactResults
+WHERE Season >= 2014
+GROUP BY Wteam 
+ORDER BY wcount DESC
+
+winning score 
+SELECT Wteam, Wscore
+    FROM RegularSeasonDetailedResults WHERE Season >= 2014;
+
+avg winning score
+SELECT Wteam, avg(Wscore) FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Wteam
+
+avg losing score
+SELECT Lteam, avg(Lscore) FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Lteam
+
+field goal percentage
+
+SELECT ((CAST(Wfgm AS FLOAT))/(CAST (Wfga AS FLOAT))) AS  Wfgp,((CAST(Lfgm AS FLOAT))/(CAST(Lfga AS FLOAT))) as Lfgp  FROM RegularSeasonDetailedResults WHERE Season >= 2014;
+
