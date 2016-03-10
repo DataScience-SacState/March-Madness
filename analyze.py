@@ -4,7 +4,12 @@ import sklearn as sk
 
 conn = sqlite.connect('data/database.sqlite')
 
-''' quereies'''
+''' 
+
+quereies
+
+'''
+
 #most winning teams in the last two years
 mw2yr = "SELECT Wteam, COUNT(*)  AS wcount FROM RegularSeasonCompactResults WHERE Season >= 2014 GROUP BY Wteam ORDER BY wcount DESC;"
 mw2yrDF = pd.read_sql_query(mw2yr,conn)
@@ -19,10 +24,48 @@ avgLossScoreDF = pd.read_sql_query(avgLossScore,conn)
 
 #joined scores
 #rename
-avgWinScoreDF = avgWinScoreDF.rename(columns={'Wteam':'Team'})
-avgLossScoreDF = avgLossScoreDF.rename(columns={'Lteam':'Team'})
+avgWinScoreDFConverted = avgWinScoreDF.rename(columns={'Wteam':'Team'})
+avgLossScoreDFConverted = avgLossScoreDF.rename(columns={'Lteam':'Team'})
 #merge
-mergedWinLoss = avgWinScoreDF.merge(avgLossScoreDF,on="Team")
+mergedWinLossScore = avgWinScoreDFConverted.merge(avgLossScoreDFConverted,on="Team")
 
-#Fieldgoal percentage
+'''Offensive stats'''
+#field goals
+#win
+avgWinFGP = "SELECT Wteam,AVG((CAST(Wfgm AS FLOAT))/(CAST (Wfga AS FLOAT))) AS  Wfgp FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Wteam ORDER BY Wteam ASC;"
+avgLossFGP = "SELECT Lteam,AVG((CAST(Lfgm AS FLOAT))/(CAST (Lfga AS FLOAT))) AS Lfgp FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Lteam ORDER BY Lteam ASC;"
+
+#loss
+avgWinFGPDF = pd.read_sql_query(avgWinFGP,conn)
+avgLossFGPDF = pd.read_sql_query(avgLossFGP,conn)
+
+#rename
+avgWinFGPDFConverted = avgWinFGPDF.rename(columns={'Wteam':'Team'})
+avgLossFGPDFConverted = avgLossFGPDF.rename(columns={'Lteam':'Team'})
+#merge
+mergeWinLossFGP = avgWinFGPDFConverted.merge(avgLossFGPDFConverted, on="Team")
+
+#3 pointer
+#win
+avgWin3P = "SELECT Wteam,AVG((CAST(Wfgm3 AS FLOAT))/(CAST (Wfga3 AS FLOAT))) AS  Wfgp3 FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Wteam ORDER BY Wteam ASC;"
+avgLoss3P = "SELECT Lteam,AVG((CAST(Lfgm3 AS FLOAT))/(CAST (Lfga3 AS FLOAT))) AS Lfgp3 FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Lteam ORDER BY Lteam ASC;"
+
+#loss
+avgWin3PDF = pd.read_sql_query(avgWin3P,conn)
+avgLoss3PDF = pd.read_sql_query(avgLoss3P,conn)
+
+#rename
+avgWin3PDFConverted = avgWin3PDF.rename(columns={'Wteam':'Team'})
+avgLoss3PDFConverted = avgLoss3PDF.rename(columns={'Lteam':'Team'})
+#merge
+mergeWinLoss3P = avgWin3PDFConverted.merge(avgLoss3PDFConverted, on="Team")
+
+print(mergeWinLoss3P)
+
+#freethrwo
+avgWinFTP = "SELECT Wteam,AVG((CAST(Wftm AS FLOAT))/(CAST (Wfta AS FLOAT))) AS  Wft FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Wteam ORDER BY Wteam ASC;"
+avgLossFTP = "SELECT Lteam,AVG((CAST(Lftm AS FLOAT))/(CAST (Lfta AS FLOAT))) AS  Lft FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Lteam ORDER BY Lteam ASC;"
+
+
+
 

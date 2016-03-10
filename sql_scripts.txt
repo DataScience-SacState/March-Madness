@@ -35,3 +35,9 @@ field goal percentage
 
 SELECT ((CAST(Wfgm AS FLOAT))/(CAST (Wfga AS FLOAT))) AS  Wfgp,((CAST(Lfgm AS FLOAT))/(CAST(Lfga AS FLOAT))) as Lfgp  FROM RegularSeasonDetailedResults WHERE Season >= 2014;
 
+winning field goal percentage
+SELECT Wteam,AVG((CAST(Wfgm AS FLOAT))/(CAST (Wfga AS FLOAT))) AS  Wfgp FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Wteam ORDER BY Wteam ASC;
+
+losing field gaol percentage
+SELECT Lteam,AVG((CAST(Lfgm AS FLOAT))/(CAST (Lfga AS FLOAT))) AS Lfgp FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Wteam ORDER BY Lteam ASC;
+
