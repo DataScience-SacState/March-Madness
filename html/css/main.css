@@ -1,0 +1,52 @@
+html, body, div, select, input, article, p, h1 {
+	margin: 0;
+	padding: 0;
+}
+
+h2, h3, h4, h5, h6 {
+	margin: 15px 5px;
+	padding: 0;
+}
+
+.stretch {
+	background-color: #eeeeee;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	width: 100%;
+}
+
+.center {
+	max-width: 650px;
+	margin: 40px auto;
+}
+
+.outlined {
+	padding: 3px;
+	outline: 3px solid #ddd;
+}
+
+#input {
+	position: relative;
+	display: block;
+	
+	max-width: 300px;
+	min-width: 100px;
+	height: 150px;
+}
+
+#input select {
+	width: 100%;
+}
+
+#plot {
+	background-color: #efefef;
+	display: block;
+	float: right;
+	min-height: 100px;
+	min-width: 100px;
+}
+
+.teamInput {
+	background-color: #efefef;
+}
