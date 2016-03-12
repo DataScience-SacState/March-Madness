@@ -28,6 +28,7 @@ avgWinScoreDFConverted = avgWinScoreDF.rename(columns={'Wteam':'Team'})
 avgLossScoreDFConverted = avgLossScoreDF.rename(columns={'Lteam':'Team'})
 #merge
 mergedWinLossScore = avgWinScoreDFConverted.merge(avgLossScoreDFConverted,on="Team")
+print(mergedWinLossScore)
 
 '''Offensive stats'''
 #field goals
@@ -50,22 +51,39 @@ mergeWinLossFGP = avgWinFGPDFConverted.merge(avgLossFGPDFConverted, on="Team")
 avgWin3P = "SELECT Wteam,AVG((CAST(Wfgm3 AS FLOAT))/(CAST (Wfga3 AS FLOAT))) AS  Wfgp3 FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Wteam ORDER BY Wteam ASC;"
 avgLoss3P = "SELECT Lteam,AVG((CAST(Lfgm3 AS FLOAT))/(CAST (Lfga3 AS FLOAT))) AS Lfgp3 FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Lteam ORDER BY Lteam ASC;"
 
-#loss
+#dataframe
 avgWin3PDF = pd.read_sql_query(avgWin3P,conn)
 avgLoss3PDF = pd.read_sql_query(avgLoss3P,conn)
 
 #rename
 avgWin3PDFConverted = avgWin3PDF.rename(columns={'Wteam':'Team'})
 avgLoss3PDFConverted = avgLoss3PDF.rename(columns={'Lteam':'Team'})
+
 #merge
 mergeWinLoss3P = avgWin3PDFConverted.merge(avgLoss3PDFConverted, on="Team")
-
 print(mergeWinLoss3P)
 
-#freethrwo
+#freethrow
+#sql strings
 avgWinFTP = "SELECT Wteam,AVG((CAST(Wftm AS FLOAT))/(CAST (Wfta AS FLOAT))) AS  Wft FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Wteam ORDER BY Wteam ASC;"
 avgLossFTP = "SELECT Lteam,AVG((CAST(Lftm AS FLOAT))/(CAST (Lfta AS FLOAT))) AS  Lft FROM RegularSeasonDetailedResults WHERE Season >= 2014 GROUP BY Lteam ORDER BY Lteam ASC;"
 
+#dataframe
+avgWinFTPDF = pd.read_sql_query(avgWinFTP,conn)
+avgLossFTPDF = pd.read_sql_query(avgLossFTP,conn)
+
+#rename
+avgWinFTPDFConverted = avgWinFTPDF.rename(columns={'Wteam':'Team'})
+avgLossFTPDFConverted = avgLossFTPDF.rename(columns={'Lteam':'Team'})
+
+#merge
+mergeWinLossFTP = avgWinFTPDFConverted.merge(avgLossFTPDFConverted, on="Team")
+#print(mergeWinLossFTP)
+
+
+
+
+#print(avgWinFTPDF)
 
 
 
