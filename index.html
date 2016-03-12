@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>March Madness Model</title>
+        <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+    </head>
+    <body>
+        
+        <div class="stretch"><h1>Model March Madness:</h1></div>
+        
+        <div class="center">
+	<div id="content" class="outlined">
+            
+            <form id="input">
+            	<div id="teamA" class="teamInput">
+            	<h4>Select a Team:</h4>
+                <select id="selectA" required>
+                    <option value="" selected disabled>Please select a team...</option>
+                </select>
+                </div>
+                
+                <div id="teamB" class="teamInput">
+                <h4>Select Another Team:</h4>
+                <select id="selectB" required>
+                    <option value="" selected disabled>Please select a team...</option>
+                </select>
+                </div>
+                
+                <input id="submitButton" type="submit" value="Update">
+            </form>
+            
+            <div id="plot">
+                <div id="plotBars"></div>
+                <div id="plotData"></div>
+                <div id="plotB"></div>
+            </div>
+        </div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script type="text/javascript" src="js/d3.js"></script>
+       <script src="js/selectModel.js"></script> 
+       <script src="js/data.js"></script> 
+    </body>
+</html> 

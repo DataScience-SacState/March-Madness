@@ -1,0 +1,75 @@
+html, body, div, select, input, article, p, h1 {
+	margin: 0;
+	padding: 0;
+}
+
+h2, h3, h4, h5, h6 {
+	margin: 5px;
+	padding: 0;
+}
+
+.stretch {
+	background-color: #eeeeee;
+	
+	margin: 0;
+	margin-bottom: 10px;
+	
+	padding: 0;
+	text-align: center;
+	width: 100%;
+}
+
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 40px;
+}
+
+#content {
+	display: flex;
+	max-width: 750px;
+}
+
+#topSpace {
+	display: block;
+	height: 25%;
+}
+
+.outlined {
+	padding: 3px;
+	outline: 3px solid #ddd;
+}
+
+#input {
+	display: flex;
+	flex-direction: column;
+	align-items: space-between;
+
+	margin: 10px;
+	
+	max-width: 300px;
+	min-width: 100px;
+}
+
+#input select {
+	width: 100%;
+}
+
+#plot {
+	display: block;
+	
+	margin: 10px;
+	
+	background-color: #efefef;
+	min-height: 100px;
+	min-width: 100px;
+	
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+
+.teamInput {
+	background-color: #efefef;
+	margin-bottom: 10px;
+}
