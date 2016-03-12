@@ -23,24 +23,12 @@ var dummyData = {
 		offSlope: 1,
 		offInt: 0,
 		defSlope: -1,
-		defInt: 40
+		defInt: 40,
+
 	},
 	team2: {
-		name: "trash",
-		offData: [
-			{ x: 10, y: 15 },
-			{ x: 20, y: 25 },
-			{ x: 30, y: 35 }
-		],
-		defData: [
-			{ x: 10, y: 35 },
-			{ x: 20, y: 25 },
-			{ x: 30, y: 15 }
-		],
-		offSlope: 1.5,
-		offInt: 5,
-		defSlope: -1.5,
-		defInt: 45
+		offScore: 1, 
+		defScore: 1
 	}
 	
 };
@@ -69,7 +57,7 @@ svg.append("g")
 /* PLOT DATA POINTS  */
 
 // Team 1 Offensive Data
-svg.selectAll("#plot")
+var team1Off = svg.selectAll("#plot")
 	.data(dummyData.team1.offData)
 	.enter()
 	.append("circle")
@@ -84,7 +72,7 @@ svg.selectAll("#plot")
 
 // Team 1 Defensive Data
 
-svg.selectAll("#plot")
+var team1Def = svg.selectAll("#plot")
 	.data(dummyData.team1.defData)
 	.enter()
 	.append("circle")
@@ -97,22 +85,47 @@ svg.selectAll("#plot")
 	})
 	.attr("r", dotR);
 
-// Team 1 Offensive Regression Line
-var team1 = dummyData.team1
-console.log(team1);
-var x_int = function(m,b) {
-	if (m == 0 || b == 0) {
-		return 0;
-	}
-	return -b/m;
-};
+// Team 2 Offensive Data
+// var team2Off = svg.selectAll("#plot")
+// 	.data(dummyData.team2.offData)
+// 	.enter()
+// 	.append("circle")
+// 	.attr("fill", "purple")
+// 	.attr("cx", function(d) { // Change for JSON
+// 		return x(d.x)
+// 	})
+// 	.attr("cy", function(d) {
+// 		return y(d.y)
+// 	})
+// 	.attr("r", dotR);
 
-svg.selectAll("#plot")
-	.append("line")
+// // Team 2 Defensive Data
+
+// var team2Def = svg.selectAll("#plot")
+// 	.data(dummyData.team2.defData)
+// 	.enter()
+// 	.append("circle")
+// 	.attr("fill", "orange")
+// 	.attr("cx", function(d) { // Change for JSON
+// 		return x(d.x)
+// 	})
+// 	.attr("cy", function(d) {
+// 		return y(d.y)	
+// 	})
+// 	.attr("r", dotR);
+
+
+// Team 1 Offensive Regression Line
+
+var x_int = function(m,b) {	return -b/m };
+
+var team1 = dummyData.team1;
+
+svg.append("line")
 	.attr("x1", x(0))
-	.attr("y1", y(team1.offInt));
-	.attr("x2", x(x_int(team1.offInt, team1.offSlope)))
-	.attr("y2", y(0))
+	.attr("y1", y(team1.offInt))
+	.attr("x2", x(40))
+	.attr("y2", y(40*team1.offSlope + team1.offInt))
 	.attr("stroke", "green")
 	.attr("stroke-width", 1);
 
