@@ -23,6 +23,9 @@ def getData(teamId):
     
     o = oteamDf.apply(genOffScore,axis=1)
     
+    omean = o.mean(axis=0) 
+    #print(omean)
+
     dwinningScript = "SELECT Wteam as team, Lscore as oppscore, Lto as oppto, Wdr as dr, Wstl as stl, Wblk as blk FROM RegularSeasonDetailedResults WHERE Season >= 2014 AND (Wteam = ?)"
     dwinningDf = pd.read_sql_query(dwinningScript, conn, params = (teamId, ))
     
@@ -32,10 +35,12 @@ def getData(teamId):
     dteamDf = dwinningDf.append(dlosingDf)
     
     d = dteamDf.apply(genDefScore,axis=1)
-    
-    od = pd.concat([o,d],axis=1)
+    dmean = d.mean(axis=0)
 
-    print(od)
+    #od = pd.concat([o,d],axis=1)
+    
+    return(omean,dmean)
+    #print(od)
 
 #process the data
 def genOffScore(row):
@@ -45,7 +50,8 @@ def genOffScore(row):
     ftp = (row[4]) * .1
     ofr = (row[5]) * .05
     oScore = fgp + tpp + ftp + ofr
-    return ppg,oScore
+    #return ppg,oScore
+    return oScore
 
 def getDefData(teamId):
     teamId = str(teamId)
@@ -75,8 +81,22 @@ def genDefScore(row):
     stl  = (row[4])/MAX_ST * .05
     blk = (row[5])/MAX_BLK*.05     
     dScore = xppg + to + dr + stl + blk
-    return ppg,dScore
+    return dScore
 
-getData(1181)
+def getTeams():
+    script = "SELECT DISTINCT(Wteam) FROM RegularSeasonDetailedResults WHERE Season >= 2014;"
+    a = pd.read_sql_query(script,conn)
+    b = a.iloc[:,0]
+    b = b.tolist()
+    return b
 
+def generateDF():
+    teams = (getTeams())
+    teamsdf = pd.DataFrame(columns =('id', 'offSkill', 'defSkill'))
+    for a in teams:
+        foo = getData(a)
+        adf = pd.DataFrame([[a,foo[0],foo[1]]],columns=('id', 'offSkill', 'defSkill'))
+        teamsdf = teamsdf.append(adf)
+    print(teamsdf)
 
+generateDF()
