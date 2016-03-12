@@ -13,11 +13,11 @@
         
         <div class="stretch"><h1>HELLO!</h1></div>
         
-        <div class="center outlined">
-            <div id="plot">plot goes here</div>
+        <div class="center">
+	<div id="content" class="outlined">
             <div id="input">
             	<div id="teamA" class="teamInput">
-            	<h2>Select a Team:</h2>
+            	<h4>Select a Team:</h4>
                 <select id="selectA" onchange="teamA()">
                     <option value="101">Test Option</option>
                     <option value="102">Test option</option>
@@ -27,7 +27,7 @@
                 </div>
                 
                 <div id="teamB" class="teamInput">
-                <h2>Select Another Team:</h2>
+                <h4>Select Another Team:</h4>
                 <select id="selectB" onchange="teamB()">
                     <option value="101">Test Option</option>
                     <option value="102">Test option</option>
@@ -36,7 +36,9 @@
                 </select>
                 </div>
             </div>
+            <div id="plot"></div>
         </div>
+	</div>
        <script src="js/data.js"></script> 
     </body>
 </html> 
