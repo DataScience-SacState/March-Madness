@@ -2,7 +2,9 @@ var w = 500;
 var h = 500;
 var pad = 30;
 var left_pad = 75;
-var dotR = 4;
+var x_domain = 40;
+var y_domain = 40;
+var dot_rad = 4;
 
 //DATA?!?!?!?!?!
 
@@ -33,13 +35,22 @@ var dummyData = {
 	
 };
 
+var entries = d3.entries(dummyData)
+console.log(entries);
+
+// Create SVG
+
 var svg = d3.select("#plot")
 			.append("svg")
 			.attr("width", w)
 			.attr("height", h);
 
-var x = d3.scale.linear().domain([0, 40]).range([left_pad, w-pad]),
-    y = d3.scale.linear().domain([40, 0]).range([pad, h-pad*2]);
+// Create Scale
+
+var x = d3.scale.linear().domain([0, x_domain]).range([left_pad, w-pad]),
+    y = d3.scale.linear().domain([y_domain, 0]).range([pad, h-pad*2]);
+
+// Create Axes
 
 var xAxis = d3.svg.axis().scale(x).orient("bottom"),
     yAxis = d3.svg.axis().scale(y).orient("left");
@@ -56,77 +67,62 @@ svg.append("g")
 
 /* PLOT DATA POINTS  */
 
-// Team 1 Offensive Data
-var team1Off = svg.selectAll("#plot")
-	.data(dummyData.team1.offData)
-	.enter()
-	.append("circle")
-	.attr("fill", "blue")
-	.attr("cx", function(d) { // Change for JSON
-		return x(d.x)
-	})
-	.attr("cy", function(d) {
-		return y(d.y)
-	})
-	.attr("r", dotR);
+var team1OffPlot;
+var team1DefPlot;
+var team1OffRegLine;
+var team1DefRegLine;
 
-// Team 1 Defensive Data
+var createScatterPlot = function(data) {
+	var team1 = data.team1;
+	var team2 = data.team2;
 
-var team1Def = svg.selectAll("#plot")
-	.data(dummyData.team1.defData)
-	.enter()
-	.append("circle")
-	.attr("fill", "green")
-	.attr("cx", function(d) { // Change for JSON
-		return x(d.x)
-	})
-	.attr("cy", function(d) {
-		return y(d.y)	
-	})
-	.attr("r", dotR);
+	team1OffPlot = svg.selectAll("circles.off")
+						.data(team1.offData)
+						.enter()
+						.append("circle")
+						.attr("class", "off")
+						.attr("fill", "blue")
+						.attr("cx", function(d) { // Change for JSON
+							return x(d.x)
+						})
+						.attr("cy", function(d) {
+							return y(d.y)
+						})
+						.attr("r", dot_rad);
 
-// Team 2 Offensive Data
-// var team2Off = svg.selectAll("#plot")
-// 	.data(dummyData.team2.offData)
-// 	.enter()
-// 	.append("circle")
-// 	.attr("fill", "purple")
-// 	.attr("cx", function(d) { // Change for JSON
-// 		return x(d.x)
-// 	})
-// 	.attr("cy", function(d) {
-// 		return y(d.y)
-// 	})
-// 	.attr("r", dotR);
+	team1DefPlot = svg.selectAll("circles.def")
+						.data(team1.defData)
+						.enter()
+						.append("circle")
+						.attr("class", "def")
+						.attr("fill", "green")
+						.attr("cx", function(d) { // Change for JSON
+							return x(d.x)
+						})
+						.attr("cy", function(d) {
+							return y(d.y)	
+						})
+						.attr("r", dot_rad);
 
-// // Team 2 Defensive Data
+	team1OffRegLine = svg.append("line")
+						.attr("x1", x(0))
+						.attr("y1", y(team1.offInt))
+						.attr("x2", x(40))
+						.attr("y2", y(40*team1.offSlope + team1.offInt))
+						.attr("stroke", "blue")
+						.attr("stroke-width", 1);
 
-// var team2Def = svg.selectAll("#plot")
-// 	.data(dummyData.team2.defData)
-// 	.enter()
-// 	.append("circle")
-// 	.attr("fill", "orange")
-// 	.attr("cx", function(d) { // Change for JSON
-// 		return x(d.x)
-// 	})
-// 	.attr("cy", function(d) {
-// 		return y(d.y)	
-// 	})
-// 	.attr("r", dotR);
+	team1DefRegLine = svg.append("line")
+						.attr("x1", x(0))
+						.attr("y1", y(team1.defInt))
+						.attr("x2", x(40))
+						.attr("y2", y(40*team1.defSlope + team1.defInt))
+						.attr("stroke", "green")
+						.attr("stroke-width", 1);
+};
+
+createScatterPlot(dummyData);
 
 
-// Team 1 Offensive Regression Line
-
-var x_int = function(m,b) {	return -b/m };
-
-var team1 = dummyData.team1;
-
-svg.append("line")
-	.attr("x1", x(0))
-	.attr("y1", y(team1.offInt))
-	.attr("x2", x(40))
-	.attr("y2", y(40*team1.offSlope + team1.offInt))
-	.attr("stroke", "green")
-	.attr("stroke-width", 1);
 
 
