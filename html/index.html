@@ -4,41 +4,42 @@
         <meta charset="utf-8">
         <title>March Madness Model</title>
         <link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
-        <script type="text/javascript" src="js/d3.js"></script>
     </head>
     <body>
-        <script type="text/javascript">
-            // Your beautiful D3 code will go here
-        </script>
         
-        <div class="stretch"><h1>HELLO!</h1></div>
+        <div class="stretch"><h1>Model March Madness:</h1></div>
         
         <div class="center">
 	<div id="content" class="outlined">
-            <div id="input">
+            
+            <form id="input">
             	<div id="teamA" class="teamInput">
             	<h4>Select a Team:</h4>
-                <select id="selectA" onchange="teamA()">
-                    <option value="101">Test Option</option>
-                    <option value="102">Test option</option>
-                    <option value="103">test Option</option>
-                    <option value="104">test option</option>
+                <select id="selectA" required>
+                    <option value="" selected disabled>Please select a team...</option>
                 </select>
                 </div>
                 
                 <div id="teamB" class="teamInput">
                 <h4>Select Another Team:</h4>
-                <select id="selectB" onchange="teamB()">
-                    <option value="101">Test Option</option>
-                    <option value="102">Test option</option>
-                    <option value="103">test Option</option>
-                    <option value="104">test option</option>
+                <select id="selectB" required>
+                    <option value="" selected disabled>Please select a team...</option>
                 </select>
                 </div>
+                
+                <input id="submitButton" type="submit" value="Update">
+            </form>
+            
+            <div id="plot">
+                <div id="plotBars"></div>
+                <div id="plotData"></div>
+                <div id="plotB"></div>
             </div>
-            <div id="plot"></div>
         </div>
 	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script type="text/javascript" src="js/d3.js"></script>
+       <script src="js/selectModel.js"></script> 
        <script src="js/data.js"></script> 
     </body>
 </html> 
