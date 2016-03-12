@@ -106,6 +106,6 @@ for row in teams:
 		"ourLine" :  {"interc":1,"slope":2}
 	}
 }
-''	
+'''	
 
 
