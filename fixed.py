@@ -21,7 +21,7 @@ def getData(teamId):
     
     oteamDf = owinningDf.append(olosingDf)
     
-    oteamDf.apply(genOffScore,axis=1)
+    o = oteamDf.apply(genOffScore,axis=1)
     
     dwinningScript = "SELECT Wteam as team, Lscore as oppscore, Lto as oppto, Wdr as dr, Wstl as stl, Wblk as blk FROM RegularSeasonDetailedResults WHERE Season >= 2014 AND (Wteam = ?)"
     dwinningDf = pd.read_sql_query(dwinningScript, conn, params = (teamId, ))
@@ -30,18 +30,22 @@ def getData(teamId):
     dlosingDf = pd.read_sql_query(dlosingScript, conn, params = (teamId, ))
     
     dteamDf = dwinningDf.append(dlosingDf)
-    a = dteamDf.apply(genDefScore,axis=1)
-    print(a)
+    
+    d = dteamDf.apply(genDefScore,axis=1)
+    
+    od = pd.concat([o,d],axis=1)
+
+    print(od)
 
 #process the data
 def genOffScore(row):
-    #score = fgp * .65 + tpp * .2 + ftp *.1 + ofr*.05
+    ppg = row[1]
     fgp = (row[2]) * .65
     tpp = (row[3]) * .20
     ftp = (row[4]) * .1
     ofr = (row[5]) * .05
     oScore = fgp + tpp + ftp + ofr
-    return oScore
+    return ppg,oScore
 
 def getDefData(teamId):
     teamId = str(teamId)
@@ -56,25 +60,23 @@ def getDefData(teamId):
     teamDf.apply(genDefScore,axis=1)
 
 def genDefScore(row):
-    #print(row)
     MEAN = 68.56
     GIVEN_SD = 9.83
     MAX_TO = 25
     MAX_DR = 48
     MAX_ST = 15
     MAX_BLK = 13
-
     team = row[0]
-    ppg  = (int(row[1]) - MEAN)/GIVEN_SD
-    xppg = 1-(st.norm.cdf(ppg))*.6
-    
+    ppg = row[1]
+    sppg  = (int(row[1]) - MEAN)/GIVEN_SD
+    xppg = 1-(st.norm.cdf(sppg))*.6
     to  = (row[2])/MAX_TO * .20
     dr  = (row[3])/MAX_DR * .1
     stl  = (row[4])/MAX_ST * .05
-    blk = (row[5])/MAX_BLK*.05 
-    
+    blk = (row[5])/MAX_BLK*.05     
     dScore = xppg + to + dr + stl + blk
-    return dScore
-getData(1101)
+    return ppg,dScore
+
+getData(1181)
 
 
